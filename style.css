@@ -1,0 +1,119 @@
+/* --- GLOBAL --- */
+:root {
+  --dark-blue: #363F5F;
+  --main-white: #FFF;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #F0F2F5; /*Branco gelo*/
+  font-family: 'Poppins', sans-serif;
+}
+.container {
+  /* NEW THING! function min: 
+    Ela vai usar o valor menor, vai usar 800px que é o menor, quando a width for - que 800px passa pra 90view-width
+    Fica bem inteligente, massa!
+  ;*/
+  width: min(90vw, 800px);
+  margin: auto;
+}
+
+/* --- TITLES --- */
+h2 {
+  margin-top: 3.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--dark-blue);
+  font-weight: normal;
+}
+
+/* --- HEADER --- */
+header {
+  background-color: #2D4A22;
+  padding: 2rem 0 10rem;
+  text-align: center;
+}
+#logo {
+  color: #FFF;
+  font-weight: 100;
+}
+
+/* --- BALANCE --- */
+#balance {
+  margin-top: -8rem;
+}
+#balance h2 {
+  color: var(--main-white);
+  margin-top: 0;
+}
+
+/* --- CARDS --- */
+.card {
+  background-color: var(--main-white);
+  padding: 1.5rem 2rem;
+  border-radius: 0.25rem;
+  margin-bottom: 2rem;
+
+  color: var(--dark-blue);
+}
+.card h3 {
+  font-weight: normal;
+  font-size: 1rem;
+}
+.card p {
+  font-size: 2rem;
+  line-height: 3rem; 
+  margin-top: 1rem;
+}
+.card.total {
+  color: var(--main-white);
+  background-color: #49AA26;
+}
+
+/* --- TABLE --- */
+#data-table {
+  width: 100%;
+  border-spacing: 0 0.5rem; /*0 de espaço na vertical e 0.5rem na horizontal*/
+  color: #969CB3;
+}
+table thead tr th:first-child,
+table tbody tr td:first-child {
+  /* Arredondar a borda só no lado esquerdo, em cima e embaixo */
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+table thead th {
+  background-color: var(--main-white);
+  font-weight: normal;
+  padding: 1rem 2rem;
+  text-align: left;
+}
+table tbody tr {
+  opacity: 0.6;
+}
+table tbody tr:hover {
+  opacity: 1;
+}
+table tbody td {
+  background-color: var(--main-white);
+  padding: 1rem 2rem;
+}
+td.description, 
+thead {
+  color: var(--dark-blue);
+}
+td.income {
+  color: #12A454;
+}
+td.outgoing {
+  color: #E92929;
+}
+
+/* --- FOOTER --- */
+footer {
+  text-align: center;
+  padding: 4rem 0 2rem;
+  color: var(--dark-blue);
+  opacity: 0.6;
+}
