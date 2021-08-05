@@ -2,22 +2,39 @@
 :root {
   --dark-blue: #363F5F;
   --main-white: #FFF;
+  --green: #49AA26;
+  --light-green: #3DD705;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  font-size: 93.75%; /*15px*/
+}
 body {
   background-color: #F0F2F5; /*Branco gelo*/
   font-family: 'Poppins', sans-serif;
+}
+.sr-only {
+  /*Peguei no css tricks, isso serve para deixar visível somente para os Screen Reader, it's about accessibility */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 .container {
   /* NEW THING! function min: 
     Ela vai usar o valor menor, vai usar 800px que é o menor, quando a width for - que 800px passa pra 90view-width
     Fica bem inteligente, massa!
   ;*/
-  width: min(90vw, 800px);
+  width: min(90vw, 950px);
   margin: auto;
 }
 
@@ -26,7 +43,47 @@ h2 {
   margin-top: 3.2rem;
   margin-bottom: 0.8rem;
   color: var(--dark-blue);
-  font-weight: normal;
+  font-weight: 600;
+}
+
+/* --- LINKS AND BUTTONS --- */
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--light-green);
+}
+button.save {
+  width: 100%;
+  height: 50px;
+  border: none;
+  color: var(--main-white);
+  background-color: var(--green);
+  border-radius: .25rem;
+  cursor: pointer;
+}
+button.save:hover {
+  background-color: var(--light-green);
+}
+.button.cancel {
+  color: #E92929;
+  border: 2px #E92929 solid;
+  border-radius: .25rem;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: .6;
+}
+.button.cancel:hover {
+  opacity: 1;
+}
+.button.new {
+  display: inline-block;
+  margin-bottom: .8rem;
 }
 
 /* --- HEADER --- */
@@ -61,6 +118,10 @@ header {
 .card h3 {
   font-weight: normal;
   font-size: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .card p {
   font-size: 2rem;
@@ -69,19 +130,30 @@ header {
 }
 .card.total {
   color: var(--main-white);
-  background-color: #49AA26;
+  background-color: var(--green);
 }
 
 /* --- TABLE --- */
+#transaction {
+  display: block; 
+  width: 100%;
+  
+  /*Tabela scroll mobile*/
+  overflow-x: auto; 
+}
 #data-table {
   width: 100%;
   border-spacing: 0 0.5rem; /*0 de espaço na vertical e 0.5rem na horizontal*/
   color: #969CB3;
 }
+
 table thead tr th:first-child,
 table tbody tr td:first-child {
-  /* Arredondar a borda só no lado esquerdo, em cima e embaixo */
   border-radius: 0.25rem 0 0 0.25rem;
+}
+table thead tr th:last-child,
+table tbody tr td:last-child {
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 table thead th {
   background-color: var(--main-white);
@@ -91,12 +163,12 @@ table thead th {
 }
 table tbody tr {
   opacity: 0.6;
+  background-color: var(--main-white);
 }
 table tbody tr:hover {
   opacity: 1;
 }
 table tbody td {
-  background-color: var(--main-white);
   padding: 1rem 2rem;
 }
 td.description, 
@@ -109,6 +181,9 @@ td.income {
 td.outgoing {
   color: #E92929;
 }
+table img {
+  cursor: pointer;
+}
 
 /* --- FOOTER --- */
 footer {
@@ -116,4 +191,75 @@ footer {
   padding: 4rem 0 2rem;
   color: var(--dark-blue);
   opacity: 0.6;
+}
+
+/* --- MODAL --- */
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  
+  background-color: rgba(0, 0, 0, .7);
+  
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+}
+.modal-overlay.active {
+  /*aqui que tá a mágica da modal*/
+  opacity: 1;
+  visibility: visible;
+}
+.modal {
+  background-color: #F0F2F5;
+  padding: 2.4rem;
+  width: min(90vw, 500px);
+}
+
+/* --- FORM --- */
+#form h2 {
+  margin-top: 0;
+}
+#form form input {
+  border: none;
+  border-radius: .2rem;
+  padding: .8rem;
+  width: 100%;
+}
+.input-group {
+  margin-top: .8rem;
+}
+.input-group small {
+  opacity: .4;
+}
+.input-group.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.input-group.actions .button,
+.input-group.actions button.save {
+  width: 48%;
+}
+
+/* --- Responsive --- */
+@media screen and (max-width: 1280px) {
+  .container {
+    width: min(90vw, 800px);
+  }
+}
+@media screen and (min-width: 750px) {
+  html {
+    font-size: 87.5%; /*14px*/ 
+  }
+  #balance {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+  }
 }
