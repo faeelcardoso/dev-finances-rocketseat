@@ -89,7 +89,7 @@ button.save:hover {
 /* --- HEADER --- */
 header {
   background-color: #2D4A22;
-  padding: 2rem 0 10rem;
+  padding: 2rem 0 12rem;
   text-align: center;
 }
 #logo {
@@ -137,6 +137,7 @@ header {
 #transaction {
   display: block; 
   width: 100%;
+  margin-top: 1.2rem;
   
   /*Tabela scroll mobile*/
   overflow-x: auto; 
