@@ -235,8 +235,11 @@ footer {
 .input-group {
   margin-top: .8rem;
 }
-.input-group small {
+.input-group small.help {
   opacity: .4;
+}
+input {
+  outline-color: var(--green);
 }
 .input-group.actions {
   display: flex;
