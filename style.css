@@ -105,6 +105,9 @@ header {
   color: var(--main-white);
   margin-top: 0;
 }
+.overdrawn {
+  color: #a12424;
+}
 
 /* --- CARDS --- */
 .card {
@@ -187,11 +190,17 @@ table img {
 }
 
 /* --- FOOTER --- */
-footer {
+footer,
+#quiet {
   text-align: center;
   padding: 4rem 0 2rem;
   color: var(--dark-blue);
   opacity: 0.6;
+}
+
+#quiet {
+  padding: 2rem 0 0.5rem;
+  opacity: 1;
 }
 
 /* --- MODAL --- */
@@ -255,6 +264,10 @@ input {
 @media screen and (max-width: 1280px) {
   .container {
     width: min(90vw, 800px);
+  }
+  table tbody td.outgoing, 
+  table tbody td.income {
+    padding: 0;
   }
 }
 @media screen and (min-width: 750px) {

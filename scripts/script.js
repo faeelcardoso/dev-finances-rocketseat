@@ -1,28 +1,27 @@
 const STATUS_MODAL = "active";
+const STATUS_TOTAL = "overdrawn";
 
 function modal() {
     // NEW THING!!! instead of using open/close, toggle do the same thing but in a easier way
-    let modal = document.querySelector(".modal-overlay");
-    modal.classList.toggle(STATUS_MODAL);
+    document.querySelector(".modal-overlay").classList.toggle(STATUS_MODAL);
 
     document.querySelector("input#description").focus();
 }
 
+const Storage = {
+    get() {
+        // vai retornar meu array de objetos ou um array vazio se for a primeira vez
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || [];
+    },
+    
+    set(transaction) {
+        // setando no meu localStorage minha transação em String, remember, localStorage salva em string
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transaction));
+    },
+}
+
 const Transaction = {
-    allTransactions: [
-        {
-            id: 1,
-            description: "Luz",
-            amount: -20010,
-            date: "23/01/2021",
-        },
-        {
-            id: 2,
-            description: "Criação de Website",
-            amount: 500131,
-            date: "23/01/2021",
-        },
-    ],
+    allTransactions: Storage.get(),
 
     add(transaction) {
         this.allTransactions.push(transaction);
@@ -65,6 +64,7 @@ const DOM = {
     tbody: document.querySelector("#data-table tbody"),
 
     addTransaction(transaction, index) {
+
         const tr = document.createElement("tr");
         tr.innerHTML = DOM.innerHTMLTransaction(transaction, index);
         tr.dataset.index = index; // seto o data-index="index"
@@ -78,13 +78,20 @@ const DOM = {
         const amount = Utils.formatCurrency(transaction.amount);
 
         const html = `
-      <td class="description">${transaction.description}</td>
-      <td class="${CSSclass}">${amount}</td>
-      <td class="date">${transaction.date}</td>
-      <td>
-          <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
-      </td>
-      `
+            <td class="description">${transaction.description}</td>
+            <td class="${CSSclass}">${amount}</td>
+            <td class="date">${transaction.date}</td>
+            <td>
+                <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
+            </td>
+        `;
+
+        if(Transaction.allTransactions.length > 0) {
+            let quiet = document.getElementById("quiet");
+            if(quiet) {
+                quiet.remove();
+            }
+        }
 
         return html;
     },
@@ -93,6 +100,16 @@ const DOM = {
         document.getElementById("incomeDisplay").innerHTML = Utils.formatCurrency(Transaction.incomes());
         document.getElementById("outgoingDisplay").innerHTML = Utils.formatCurrency(Transaction.outgoing());
         document.getElementById("totalDisplay").innerHTML = Utils.formatCurrency(Transaction.total());
+
+        this.updateTotalColor(Transaction.total());
+    },
+
+    updateTotalColor(value) {
+        if(value < 0) {
+            document.getElementById("totalDisplay").classList.add(STATUS_TOTAL);
+        } else {
+            document.getElementById("totalDisplay").classList.remove(STATUS_TOTAL);
+        }
     },
 
     clearTransactions() {
@@ -124,7 +141,7 @@ const Utils = {
 
     formatAmount(value) {
         value = Number(value) * 100; // pra tipo um 8.00 virar 800, tirar vírgula e ponto
-        return value;
+        return Math.round(value); // retornar o valor arredondado, caso for decimal
     },
 
     formatDate(value) {
@@ -207,6 +224,8 @@ const App = {
         Transaction.allTransactions.forEach(DOM.addTransaction);
 
         DOM.updateBalance();
+
+        Storage.set(Transaction.allTransactions);
     },
     reload() {
         DOM.clearTransactions();
